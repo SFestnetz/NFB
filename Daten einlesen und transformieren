@@ -1,0 +1,29 @@
+### SET WORKING DIRECTORY
+
+#https://cbrnr.github.io/2017/10/23/loading-eeg-data/
+%matplotlib qt5
+import mne
+
+#raw = mne.io.read_raw_edf("s03a.eeg", preload=True)
+raw = mne.io.read_raw_brainvision("s03a.vhdr", preload=True)
+# Fourier Transofrmation (Filtern)
+
+
+
+#https://www.martinos.org/mne/stable/auto_tutorials/plot_introduction.html
+print(raw.info)
+
+print(raw.ch_names)
+
+raw[1:10,0:66]
+
+
+start, stop = raw.time_as_index([100, 115])  # 100 s to 115 s data segment
+data, times = raw[:, start:stop]
+print(data.shape)
+print(times.shape)
+data, times = raw[2:20:3, start:stop]  # access underlying data
+raw.plot()
+
+events = mne.find_events(raw, stim_channel='STI 014')
+print(events[:5])
